@@ -1,1 +1,0 @@
-# samgen-doc
