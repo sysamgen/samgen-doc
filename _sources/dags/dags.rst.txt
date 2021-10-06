@@ -1,0 +1,22 @@
+DAGs
+====
+
+.. jinja:: dags_ctx
+    :debug:
+
+    {% for dag in dags %}
+
+    {{ dag }}
+    --------------------------------
+    .. image:: _static/{{ dag }}.png
+
+    Input parameters
+    ****************
+
+    Sample REST API call
+    ********************
+
+    Sample Airflow cli invocation
+    *****************************
+
+    {% endfor %}
