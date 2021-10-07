@@ -25,6 +25,8 @@ DAGs
 
     .. code-block:: bash
 
-        airflow dags trigger -c "$(cat sample_input.json)" -r dag_run-1 {{ dag }}
+        airflow dags trigger \
+        -c "$(cat sample_input.json)" \
+        -r dag_run-1 {{ dag }}
 
     {% endfor %}

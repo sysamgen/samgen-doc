@@ -55,7 +55,9 @@
 </section>
 <section id="sample-airflow-cli-invocation">
 <h3>Sample Airflow cli invocation<a class="headerlink" href="#sample-airflow-cli-invocation" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger -c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> -r dag_run-1 germline-exome-no-annotation
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
+-c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
+-r dag_run-1 germline-exome-no-annotation
 </pre></div>
 </div>
 </section>
