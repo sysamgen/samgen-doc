@@ -13,6 +13,8 @@ DAGs
     Input parameters
     ****************
 
+    `sample_input.json`
+
     .. literalinclude:: {{ dag }}-test_input_params.json
 
     Sample REST API call
@@ -20,5 +22,9 @@ DAGs
 
     Sample Airflow cli invocation
     *****************************
+
+    .. code-block:: bash
+
+        airflow dags trigger -c "$(cat sample_input.json)" -r dag_run-1 {{ dag }}
 
     {% endfor %}
