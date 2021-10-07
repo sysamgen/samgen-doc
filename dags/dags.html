@@ -52,6 +52,13 @@
 </section>
 <section id="sample-rest-api-call">
 <h3>Sample REST API call<a class="headerlink" href="#sample-rest-api-call" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
+  http://localhost:8080/api/experimental/dags/germline-exome-no-annotation/dag_runs <span class="se">\</span>
+  -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
+  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  -d <span class="s2">&quot;{&#39;conf&#39;:\&#39;</span><span class="k">$(</span>cat sample_input.json <span class="p">|</span> sed <span class="s1">&#39;s/\&quot;/\\&quot;/g&#39;</span><span class="k">)</span><span class="s2">\&#39;}&quot;</span>
+</pre></div>
+</div>
 </section>
 <section id="sample-airflow-cli-invocation">
 <h3>Sample Airflow cli invocation<a class="headerlink" href="#sample-airflow-cli-invocation" title="Permalink to this headline">¶</a></h3>

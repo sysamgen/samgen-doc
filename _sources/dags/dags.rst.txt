@@ -20,6 +20,14 @@ DAGs
     Sample REST API call
     ********************
 
+    .. code-block:: bash
+
+        curl -v -g -X POST \
+          http://localhost:8080/api/experimental/dags/{{ dag }}/dag_runs \
+          -H 'Cache-Control: no-cache' \
+          -H 'Content-Type: application/json' \
+          -d "{'conf':\'$(cat sample_input.json | sed 's/\"/\\"/g')\'}"
+
     Sample Airflow cli invocation
     *****************************
 
