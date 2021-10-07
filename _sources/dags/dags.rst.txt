@@ -13,6 +13,8 @@ DAGs
     Input parameters
     ****************
 
+    .. literalinclude:: {{ dag }}-test_input_params.json
+
     Sample REST API call
     ********************
 
