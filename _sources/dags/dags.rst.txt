@@ -8,7 +8,7 @@ DAGs
 
     {{ dag }}
     --------------------------------
-    .. image:: _static/{{ dag }}.png
+    .. image:: {{ dag }}.png
 
     Input parameters
     ****************
