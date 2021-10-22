@@ -10,11 +10,6 @@ DAGs
     --------------------------------
     .. image:: {{ dag }}.png
 
-    Description
-    ***********
-
-    .. mdinclude:: docs/dags/{{ dag }}-desc.md
-
     Input parameters
     ****************
 
