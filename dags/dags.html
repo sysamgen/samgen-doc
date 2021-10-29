@@ -70,6 +70,42 @@
 </div>
 </section>
 </section>
+<section id="kf-rnaseq">
+<h2>kf_rnaseq<a class="headerlink" href="#kf-rnaseq" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/kf_rnaseq.png" src="../_images/kf_rnaseq.png" />
+<section id="id1">
+<h3>Input parameters<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p><cite>sample_input.json</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;fastq1_path&quot;</span><span class="p">:</span> <span class="s2">&quot;cwl_inputs_folder/kf_rnaseq_tests/SRR064286_sorted_chr20_45_50_sort.bam_R1.fastq.gz&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;fastq2_path&quot;</span><span class="p">:</span> <span class="s2">&quot;cwl_inputs_folder/kf_rnaseq_tests/SRR064286_sorted_chr20_45_50_sort.bam_R2.fastq.gz&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;is_test&quot;</span><span class="p">:</span> <span class="s2">&quot;_tests&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;run_id&quot;</span><span class="p">:</span> <span class="s2">&quot;run_1&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;sample_name&quot;</span><span class="p">:</span> <span class="s2">&quot;SRR064286&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;template_path&quot;</span><span class="p">:</span> <span class="s2">&quot;dags/cwl_kf_rnaseq/configurations/templates/kf_rnaseq_configuration_template.yaml&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Sample REST API call<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
+  http://localhost:8080/api/experimental/dags/kf_rnaseq/dag_runs <span class="se">\</span>
+  -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
+  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  -d <span class="s2">&quot;{&#39;conf&#39;:\&#39;</span><span class="k">$(</span>cat sample_input.json <span class="p">|</span> sed <span class="s1">&#39;s/\&quot;/\\&quot;/g&#39;</span><span class="k">)</span><span class="s2">\&#39;}&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
+-c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
+-r dag_run-1 kf_rnaseq
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
 
@@ -93,6 +129,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">DAGs</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#germline-exome">germline-exome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kf-rnaseq">kf_rnaseq</a></li>
 </ul>
 </li>
 </ul>
