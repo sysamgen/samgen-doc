@@ -1,1 +1,1 @@
-null
+This is a short DAG description taken directly from `doc_md` of somatic-exome.
