@@ -28,7 +28,7 @@ DAGs
     .. code-block:: bash
 
         curl -v -g -X POST \
-          http://localhost:8080/api/experimental/dags/{{ dag }}/dag_runs \
+          http://localhost:8080/api/v1/dags/{{ dag }}/dagRuns \
           -H 'Cache-Control: no-cache' \
           -H 'Content-Type: application/json' \
           -d "{'conf':\'$(cat sample_input.json | sed 's/\"/\\"/g')\'}"
