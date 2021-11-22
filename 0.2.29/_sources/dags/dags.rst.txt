@@ -1,0 +1,45 @@
+DAGs
+====
+
+.. jinja:: dags_ctx
+    :debug:
+
+    {% for dag in dags %}
+
+    {{ dag }}
+    --------------------------------
+    .. image:: {{ dag }}.png
+
+    Description
+    ***********
+
+    .. mdinclude:: docs/dags/{{ dag }}-desc.md
+
+    Input parameters
+    ****************
+
+    `sample_input.json`
+
+    .. literalinclude:: {{ dag }}-test_input_params.json
+
+    Sample REST API call
+    ********************
+
+    .. code-block:: bash
+
+        curl -v -g -X POST \
+          http://localhost:8080/api/v1/dags/{{ dag }}/dagRuns \
+          -H 'Cache-Control: no-cache' \
+          -H 'Content-Type: application/json' \
+          -d "{'conf':\'$(cat sample_input.json | sed 's/\"/\\"/g')\'}"
+
+    Sample Airflow cli invocation
+    *****************************
+
+    .. code-block:: bash
+
+        airflow dags trigger \
+        -c "$(cat sample_input.json)" \
+        -r dag_run-1 {{ dag }}
+
+    {% endfor %}
