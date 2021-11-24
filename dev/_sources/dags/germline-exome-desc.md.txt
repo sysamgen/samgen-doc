@@ -29,6 +29,19 @@ Used tools:
 .. image:: img/germline-exome/detect_variants.png
 
 Used tools:
-* [gatk:4.1.8.1](10.1101/gr.107524.110)
+* [gatk:4.1.8.1](10.1101/gr.107524.110) Haplotype Caller for variant detection
+
+### Variants post-processing
+ 
+ After variants are detected by Haplotype Caller they are subject  decomposition and normalization to assure coherent variant representation. 
+ Once variants are standardized they are anootated with metadata collected and publishe by public databases. 
+
+ Used tools:
+* [vt 0.57721--hf74b74d_1](https://doi.org/10.1093/bioinformatics/btv112) - for normalization and decomposition
+* [vep](doi:10.1186/s13059-016-0974-4) - for variants annotations
+
+### Loading variants to database
+
+After succesfull completion of variants annotations data are transformed into tabular form and stored in relational database using custom operations. 
 
 

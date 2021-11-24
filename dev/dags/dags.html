@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>DAGs &#8212; samgen 0.2.31-3-gca9fe87 documentation</title>
+    <title>Pipelines &#8212; samgen 0.2.31-3-g87327fe documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -15,7 +15,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="SamGEN 0.2.31-3-gca9fe87" href="../index.html" />
+    <link rel="prev" title="SamGEN 0.2.31-3-g87327fe" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -32,8 +32,8 @@
 
           <div class="body" role="main">
             
-  <section id="dags">
-<h1>DAGs<a class="headerlink" href="#dags" title="Permalink to this headline">¶</a></h1>
+  <section id="pipelines">
+<h1>Pipelines<a class="headerlink" href="#pipelines" title="Permalink to this headline">¶</a></h1>
 <section id="germline-exome">
 <h2>germline-exome<a class="headerlink" href="#germline-exome" title="Permalink to this headline">¶</a></h2>
 <img alt="../_images/germline-exome.png" src="../_images/germline-exome.png" />
@@ -68,8 +68,24 @@ Variants are detected using GATK HaplotypeCaller tool.</p>
 <img alt="../_images/detect_variants.png" src="../_images/detect_variants.png" />
 <p>Used tools:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="10.1101/gr.107524.110">gatk:4.1.8.1</a></p></li>
+<li><p><a class="reference external" href="10.1101/gr.107524.110">gatk:4.1.8.1</a> Haplotype Caller for variant detection</p></li>
 </ul>
+</section>
+<section id="variants-post-processing">
+<h4>Variants post-processing<a class="headerlink" href="#variants-post-processing" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p>After variants are detected by Haplotype Caller they are subject  decomposition and normalization to assure coherent variant representation.
+Once variants are standardized they are anootated with metadata collected and publishe by public databases.</p>
+<p>Used tools:</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv112">vt 0.57721–hf74b74d_1</a> - for normalization and decomposition</p></li>
+<li><p><a class="reference external" href="doi:10.1186/s13059-016-0974-4">vep</a> - for variants annotations</p></li>
+</ul>
+</section>
+<section id="loading-variants-to-database">
+<h4>Loading variants to database<a class="headerlink" href="#loading-variants-to-database" title="Permalink to this headline">¶</a></h4>
+<p>After succesfull completion of variants annotations data are transformed into tabular form and stored in relational database using custom operations.</p>
 </section>
 </section>
 <section id="input-parameters">
@@ -378,7 +394,7 @@ somalier concordance metrics.</p>
 <li><p><a class="reference external" href="10.1101/gr.129684.111">varscan 2.4.2</a> - for somatic variants detection</p></li>
 <li><p><a class="reference external" href="10.1093/bioinformatics/btv710">manta 1.6.0</a> - for somatic structural variants detection</p></li>
 <li><p><a class="reference external" href="https://doi.org/10.1371/journal.pcbi.1004873">cnvkit 0.9.8</a> - for copy number variants detection</p></li>
-<li><p><a href="#id29"><span class="problematic" id="id30">`cle 1.4.2 &lt;&gt;`_</span></a></p></li>
+<li><p><a href="#id30"><span class="problematic" id="id31">`cle 1.4.2 &lt;&gt;`_</span></a></p></li>
 <li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv112">vt 0.57721–hf74b74d_1</a> - for normalization and decomposition</p></li>
 <li><p><a class="reference external" href="10.1093/gigascience/giab008">bcftools 1.12</a> - for vcf manipulations (merging, renaming samples)</p></li>
 <li><p><a class="reference external" href="10.1093/bioinformatics/btp352">samtools 1.11</a>  - for indexing and sanitizing BAM files (removing mutect-specific format tags, removing non ACTGN bases)</p></li>
@@ -386,8 +402,8 @@ somalier concordance metrics.</p>
 </ul>
 </section>
 </section>
-<section id="id26">
-<h3>Input parameters<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<section id="id27">
+<h3>Input parameters<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <p><cite>sample_input.json</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;is_test&quot;</span><span class="p">:</span> <span class="s2">&quot;_tests&quot;</span><span class="p">,</span>
@@ -403,8 +419,8 @@ somalier concordance metrics.</p>
 </pre></div>
 </div>
 </section>
-<section id="id27">
-<h3>Sample REST API call<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<section id="id28">
+<h3>Sample REST API call<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
   http://localhost:8080/api/v1/dags/somatic-exome/dagRuns <span class="se">\</span>
   -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
@@ -413,8 +429,8 @@ somalier concordance metrics.</p>
 </pre></div>
 </div>
 </section>
-<section id="id28">
-<h3>Sample Airflow cli invocation<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<section id="id29">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
 -c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
 -r dag_run-1 somatic-exome
@@ -443,7 +459,7 @@ somalier concordance metrics.</p>
 <h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">DAGs</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pipelines</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#germline-exome">germline-exome</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kf-rnaseq">kf_rnaseq</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#somatic-exome">somatic-exome</a></li>
@@ -455,7 +471,7 @@ somalier concordance metrics.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../index.html" title="previous chapter">SamGEN 0.2.31-3-gca9fe87</a></li>
+      <li>Previous: <a href="../index.html" title="previous chapter">SamGEN 0.2.31-3-g87327fe</a></li>
   </ul></li>
 </ul>
 </div>
