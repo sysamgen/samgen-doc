@@ -1,4 +1,4 @@
-Pipelines
+DAGs
 ====
 
 .. jinja:: dags_ctx
