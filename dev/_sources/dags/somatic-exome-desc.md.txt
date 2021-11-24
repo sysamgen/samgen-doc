@@ -12,13 +12,15 @@ somalier concordance metrics.
 
 ### Alignment and QC step
 
-This step is performed seperately for normal and tumor sample
+Pipeline starts with either fastq files or unaligned BAM files with necessary metadata describing analysis type, sample name, gender, distinction between tumor and normal.
+
+This step is performed seperately for normal and tumor sample.
 
 .. image:: img/somatic-exome/alignment_qc.png
 
 Used tools:
 * [picard 2.18.1](http://broadinstitute.github.io/picard/) 
-* [bwa_mem 0.7.15](10.1093/bioinformatics/btp324) - for alignment step
+* [bwa_mem 0.7.15](10.1093/bioinformatics/btp324) - for sequence alignment step using GRCh38 reference
 * [samblaster 0.1.24](https://doi.org/10.1093/bioinformatics/btu314)
 * [samtools-1.7](10.1093/bioinformatics/btp352) 
 * [flexbar 3.5](10.3390/biology1030895)
@@ -29,13 +31,13 @@ Used tools:
 
 
 ### Detect variants step
-This step is performed for normal and tumor sample at once
+This step is performed for normal and tumor sample at once.
 
 .. image:: img/somatic-exome/detect_variants.png
 
 Used tools:
 * [mutect 2](https://doi.org/10.1038/nbt.2514) - for somatic variants detection
-* [strelka 2.9.9](10.1038/s41592-018-0051-x) - for somatic variants detection
+* [strelka 2.9.9](10.1038/s41592-018-0051-x) - for somatic variants (SNPs and indels) detection
 * [varscan 2.4.2](10.1101/gr.129684.111) - for somatic variants detection
 * [manta 1.6.0](10.1093/bioinformatics/btv710) - for somatic structural variants detection
 * [cnvkit 0.9.8](https://doi.org/10.1371/journal.pcbi.1004873) - for copy number variants detection
