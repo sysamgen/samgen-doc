@@ -12,5 +12,5 @@ SamGEN |version|
 
    overview/overview
    dags/dags
-   
+   catalogue/catalogue
 
