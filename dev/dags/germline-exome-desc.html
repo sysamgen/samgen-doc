@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Introduction &#8212; samgen 0.2.34-2-g2dfcf85 documentation</title>
+    <title>Introduction &#8212; samgen 0.2.34-2-ga9b7e90 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -45,15 +45,16 @@ Variants are detected using GATK HaplotypeCaller tool.</p>
 <img alt="../_images/alignment_qc.png" src="../_images/alignment_qc.png" />
 <p>Used tools:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="http://broadinstitute.github.io/picard/">picard 2.18.1</a></p></li>
 <li><p><a class="reference external" href="10.1093/bioinformatics/btp324">bwa_mem 0.7.15</a> - for sequence alignment step using GRCh38 reference</p></li>
-<li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btu314">samblaster 0.1.24</a></p></li>
-<li><p><a class="reference external" href="10.1093/bioinformatics/btp352">samtools-1.7</a></p></li>
-<li><p><a class="reference external" href="10.3390/biology1030895">flexbar 3.5</a></p></li>
-<li><p><a class="reference external" href="http://broadinstitute.github.io/picard/">picard:2.23.6</a> (for alignment metrics)</p></li>
-<li><p><a class="reference external" href="10.1093/bioinformatics/btp352">samtools 1.11–h6270b1f_0</a> (for flagstat)</p></li>
-<li><p><a class="reference external" href="10.1101/gr.107524.110">gatk 4.1.8.1</a>  (for Select Variants)</p></li>
-<li><p><a class="reference external" href="doi:10.1016/j.ajhg.2012.09.004">verifyBamId v1.1.3</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btu314">samblaster 0.1.24</a> - for adding mate tags</p></li>
+<li><p><a class="reference external" href="10.3390/biology1030895">flexbar 3.5</a> - for bar and adapter removal</p></li>
+<li><p><a class="reference external" href="http://broadinstitute.github.io/picard/">picard:2.23.6</a> for alignment metrics</p></li>
+<li><p><a class="reference external" href="10.1093/bioinformatics/btp352">samtools 1.11–h6270b1f_0</a> for BAM indexing and flagstat operation</p></li>
+<li><p><a class="reference external" href="http://broadinstitute.github.io/picard/">picard 2.18.1</a> - for bedtointervals operation</p></li>
+<li><p><a class="reference external" href="10.1101/gr.107524.110">gatk 4.1.8.1</a>  for Select Variants</p></li>
+<li><p><a class="reference external" href="doi:10.1016/j.ajhg.2012.09.004">verifyBamId v1.1.3</a> - for checking whether the reads are contaminated as a mixture of two samples</p></li>
+<li><p><a class="reference external" href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">fastqc</a> - for bam QC report</p></li>
+<li><p><a class="reference external" href="10.1093/bioinformatics/btv566">qualimap</a> - for bam QC report</p></li>
 </ul>
 </section>
 <section id="detect-variants-step">
@@ -62,6 +63,7 @@ Variants are detected using GATK HaplotypeCaller tool.</p>
 <p>Used tools:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="10.1101/gr.107524.110">gatk:4.1.8.1</a> Haplotype Caller for variant (SNPs and indels) detection</p></li>
+<li><p><a class="reference external" href="10.1093/gigascience/giab008">bcftools</a> - QC for detected variants</p></li>
 </ul>
 </section>
 <section id="variants-post-processing">
