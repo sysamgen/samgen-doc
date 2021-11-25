@@ -43,7 +43,7 @@ Used tools:
 * [varscan 2.4.2](10.1101/gr.129684.111) - for somatic variants detection
 * [manta 1.6.0](10.1093/bioinformatics/btv710) - for somatic structural variants detection
 * [cnvkit 0.9.8](https://doi.org/10.1371/journal.pcbi.1004873) - for copy number variants detection
-* [cle 1.4.2]()
+* cle 1.4.2
 * [vt 0.57721--hf74b74d_1](https://doi.org/10.1093/bioinformatics/btv112) - for normalization and decomposition
 * [bcftools 1.12](10.1093/gigascience/giab008) - for vcf manipulations (merging, renaming samples)
 * [samtools 1.11](10.1093/bioinformatics/btp352)  - for indexing and sanitizing BAM files (removing mutect-specific format tags, removing non ACTGN bases)
