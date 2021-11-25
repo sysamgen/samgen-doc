@@ -9,7 +9,7 @@ As each run has it's own unique name is used to create directories for saving pi
  
 Naming convention follows the principle that each file name should contain sample identification (eg. sample name).
 
-Sample structure ::
+Directory structure ::
 
     |-- analysis_type                
     |   |-- pipeline_run_unique_id   
@@ -28,5 +28,7 @@ Sample structure ::
     |   |   |-- sampleid_output_file_2
     |   |   |-- sampleid_output_file_3
     |   |   |-- sampleid_output_file_n
+
+
 
     
