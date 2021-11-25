@@ -18,9 +18,7 @@ Custom steps (e.g setupping configuration or variants ETL process) were develope
 
 `Current Airflow instance <http://sg-comp-01.dsamgen.czd.pl:8080/home>`_
 
-Core technologies:
-* Apache Airflow
-* CWL and CWL-Airflow
+Core technologies: Apache Airflow, CWL, CWL-Airflow
 
 Variants DB
 -------------
@@ -30,8 +28,7 @@ The data model includes storing annotated variants, genotypes, sample and patien
 
 Data are accessed through standard JDBC protocol.
 
-Core technologies:
-* PostgreSQL
+Core technologies: PostgreSQL
 
 .. image:: img/er.png
 
@@ -45,6 +42,4 @@ An analytical platform enabling advanced programming analyzes on clinically rele
 
 `Current Jupyter instance <http://sg-edge-01.dsamgen.czd.pl:8000/>`_
 
-Core technologies:
-* Jupyter Notebooks
-* Python
+Core technologies: Jupyter Notebooks, Python
