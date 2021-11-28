@@ -9,8 +9,8 @@ SamGEN |version|
 
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
 
-   overview/overview
+
    dags/dags
-   catalogue/catalogue
 
