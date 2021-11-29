@@ -1,4 +1,4 @@
-Pipelines overview
+Running pipelines
 ==================
 
 .. jinja:: dags_ctx
@@ -8,12 +8,6 @@ Pipelines overview
 
     {{ dag }}
     --------------------------------
-    .. image:: {{ dag }}.png
-
-    Description
-    ***********
-
-    .. mdinclude:: docs/dags/{{ dag }}-desc.md
 
     Input parameters
     ****************
