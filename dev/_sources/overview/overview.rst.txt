@@ -1,5 +1,5 @@
-System overview
-==================
+Overview
+==========
 
 Samgen system enables processing genetic sequences through customizable bioinformatics pipelines aiming to identify clinically significant variants at DNA and RNA level.
 Output files are stored on the filesystem and relevant variants are additionally exported to relational database.
