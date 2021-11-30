@@ -12,5 +12,6 @@ SamGEN |version|
 
    overview/overview
    dags/dags
+   tech_docs/tech_docs
    catalogue/catalogue
 
