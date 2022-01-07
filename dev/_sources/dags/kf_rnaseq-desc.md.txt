@@ -1,7 +1,7 @@
 
 DAG = kf_rnaseq
 
-RNA-seq Workflow based on [kf-rnaseq-workflow](https://github.com/kids-first/kf-rnaseq-workflow). 
+RNA-seq Workflow based on [kf-rnaseq-workflow](https://github.com/kids-first/kf-rnaseq-workflow).
 
 ### Introduction
 This pipeline utilizes cutadapt to trim adapters from the raw reads, if necessary, and passes the reads to STAR for alignment.
