@@ -20,7 +20,7 @@ Pipelines overview
 
     `sample_input.json`
 
-    .. literalinclude:: {{ dag }}-test_input_params.json
+    .. literalinclude:: ../tech_docs/{{ dag }}-test_input_params.json
 
     Sample REST API call
     ********************
