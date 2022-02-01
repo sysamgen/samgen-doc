@@ -34,8 +34,6 @@ Used tools:
 
 ### Detect variants step
 This step is performed for normal and tumor sample at once.
-Once variants are standardized they are annotated with metadata collected and published by public databases. 
-In the afterburner step final postprocessing is performed including generating URLs to external databases and extracting genotype information from INFO field.
 
 .. image:: img/somatic-exome/detect_variants.png
 
