@@ -16,15 +16,16 @@ The pipelines were patched, updated and optimized for samgen's use cases.
 
 Custom steps (e.g setupping configuration or variants ETL process) were developed in Python.
 
-`Current Airflow instance <http://sg-comp-01.dsamgen.czd.pl:8080/home>`_
+`Current Airflow instance <http://samgen-airflow.czd.pl>`_
 
-Core technologies: Apache Airflow, CWL, CWL-Airflow
+Core technologies: Apache Airflow, CWL, CWL-Airflow.
 
 Variants DB
 -------------
 
-Relational database stores relevant data from completed bipinformatics pipelines for quick access and further analysis. 
-The data model includes storing annotated variants, genotypes, sample and patients information as wel as version metadata.
+Relational database stores relevant data from completed bioinformatics pipelines for quick access and further analysis. 
+The data model includes storing annotated variants, genotypes, sample and patients information as wel as version metadata. 
+Migration process which is performed when data model is changed (e.g. additional columns are added, or new version of annotation sources are available) keeps previous version of variant annotations and creates new variants table. 
 
 Data are accessed through standard JDBC protocol.
 
@@ -38,8 +39,19 @@ Core technologies: PostgreSQL
 Analytical Platform
 --------------------
 
-An analytical platform enabling advanced programming analyzes on clinically relevant data. The platform is built upon `Jupyter <https://jupyter.org/>`_ platform.
+An analytical platform enabling advanced programming analyzes on clinically relevant data. The platform is built upon `Jupyter <https://jupyter.org/>`_ platform. 
+Several per-sample and multi-sample notebooks templates for germline, somatic and rna analysis are available under notebooks repository. Per-sample notebooks are automatically generated after pipeline run finishes.
 
-`Current Jupyter instance <http://sg-edge-01.dsamgen.czd.pl:8000/>`_
+`Current Jupyter instance <http://samgen-jupyter.czd.pl/>`_
 
 Core technologies: Jupyter Notebooks, Python
+
+
+Monitoring Platform
+--------------------
+
+The monitoring dashboard uses `Grafana <https://grafana.com/>`_ stack and visualizes CPU Load, RAM and SWAP used, network traffic, disk space used and other metrics.
+
+`Current Jupyter instance <http://samgen-monitoring.czd.pl/>`_ 
+
+Core technologies: Grafana, Prometheus

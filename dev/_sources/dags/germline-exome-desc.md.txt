@@ -36,7 +36,8 @@ Used tools:
 ### Variants post-processing
  
  After variants are detected by Haplotype Caller they are subject  decomposition and normalization to assure coherent variant representation. 
- Once variants are standardized they are anootated with metadata collected and publishe by public databases. 
+ Once variants are standardized they are annotated with metadata collected and published by public databases. 
+ In the afterburner step final postprocessing is performed including generating URLs to external databases and extracting genotype information from INFO field.
 
  Used tools:
 * [vt 0.57721--hf74b74d_1](https://doi.org/10.1093/bioinformatics/btv112) - for normalization and decomposition
