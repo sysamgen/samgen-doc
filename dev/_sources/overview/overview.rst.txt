@@ -52,6 +52,6 @@ Monitoring Platform
 
 The monitoring dashboard uses `Grafana <https://grafana.com/>`_ stack and visualizes CPU Load, RAM and SWAP used, network traffic, disk space used and other metrics.
 
-`Current Jupyter instance <http://samgen-monitoring.czd.pll/>`_ 
+`Current Jupyter instance <http://samgen-monitoring.czd.pl/>`_ 
 
 Core technologies: Grafana, Prometheus
