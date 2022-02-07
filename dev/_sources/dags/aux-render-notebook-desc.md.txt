@@ -10,4 +10,3 @@ In order to run the DAG you should provide the following parameters:
 "git_notebooks_version": release_version_of_the_notebooks_repository
 ```
 
-
