@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Pipelines overview &#8212; samgen 0.2.59-16-gef61397 documentation</title>
+    <title>Pipelines overview &#8212; samgen 0.2.59-13-geceba5e documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -35,21 +35,65 @@
             
   <section id="pipelines-overview">
 <h1>Pipelines overview<a class="headerlink" href="#pipelines-overview" title="Permalink to this headline">¶</a></h1>
+<section id="aux-render-notebook">
+<h2>aux-render-notebook<a class="headerlink" href="#aux-render-notebook" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/aux-render-notebook.png" src="../_images/aux-render-notebook.png" />
+<section id="description">
+<h3>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h3>
+<p>This DAG is used to render a single Jupyter notebook for the
+analysis of the results of the previously executed pipelines.
+In order to run the DAG you should provide the following parameters:</p>
+<section id="inputs-common">
+<h4>Inputs common:<a class="headerlink" href="#inputs-common" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;sample_id&quot;</span><span class="p">:</span> <span class="n">ID_of_the_sample</span><span class="p">,</span>
+<span class="s2">&quot;run_id&quot;</span><span class="p">:</span> <span class="n">ID_of_the_executed_run</span><span class="p">,</span>
+<span class="s2">&quot;dag_id&quot;</span><span class="p">:</span> <span class="n">ID_of_the_executed_DAG</span><span class="p">,</span>
+<span class="s2">&quot;git_notebooks_version&quot;</span><span class="p">:</span> <span class="n">release_version_of_the_notebooks_repository</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="input-parameters">
+<h3>Input parameters<a class="headerlink" href="#input-parameters" title="Permalink to this headline">¶</a></h3>
+<p><cite>sample_input.json</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;sample_id&quot;</span><span class="p">:</span> <span class="s2">&quot;germline_test_SID&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;run_id&quot;</span><span class="p">:</span> <span class="s2">&quot;manual__2022-01-11T00_13_05.687947_00_00&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;dag_id&quot;</span><span class="p">:</span> <span class="s2">&quot;germline-exome&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;git_notebooks_version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1.11&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="sample-rest-api-call">
+<h3>Sample REST API call<a class="headerlink" href="#sample-rest-api-call" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
+  http://localhost:8080/api/v1/dags/aux-render-notebook/dagRuns <span class="se">\</span>
+  -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
+  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  -d <span class="s2">&quot;{&#39;conf&#39;:\&#39;</span><span class="k">$(</span>cat sample_input.json <span class="p">|</span> sed <span class="s1">&#39;s/\&quot;/\\&quot;/g&#39;</span><span class="k">)</span><span class="s2">\&#39;}&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="sample-airflow-cli-invocation">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#sample-airflow-cli-invocation" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
+-c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
+-r dag_run-1 aux-render-notebook
+</pre></div>
+</div>
+</section>
+</section>
 <section id="germline-exome">
 <h2>germline-exome<a class="headerlink" href="#germline-exome" title="Permalink to this headline">¶</a></h2>
 <img alt="../_images/germline-exome.png" src="../_images/germline-exome.png" />
-<section id="description">
-<h3>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h3>
-<section id="introduction">
-<h4>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h4>
+<section id="id1">
+<h3>Description<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>Germline exome workflow based on <a class="reference external" href="https://github.com/sysamgen/analysis-workflows/blob/master/definitions/pipelines/germline_exome.cwl">mgi-germline-exome</a>.</p>
 <p>This worfklow completes exome alignment and germline variant detection using a variety of tools.
 The initial processing of sequence is performed by picard, alignment is performed by bwa. Output bam file undergoes qc process resulting in
 insert_size_metrics, alignment_summary_metrics, hs_metrics and flagstat. VerifyBamId step checks if reads are not contaminated as a mixture of two samples.
 Variants are detected using GATK HaplotypeCaller tool.</p>
-</section>
-<section id="alignment-and-qc-step">
-<h4>Alignment and QC step<a class="headerlink" href="#alignment-and-qc-step" title="Permalink to this headline">¶</a></h4>
 <p>Germline pipeline starts with either fastq files or unaligned BAM files with necessary metadata describing analysis type, sample name and phenotype.</p>
 <img alt="../_images/alignment_qc.png" src="../_images/alignment_qc.png" />
 <p>Used tools:</p>
@@ -65,18 +109,12 @@ Variants are detected using GATK HaplotypeCaller tool.</p>
 <li><p><a class="reference external" href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">fastqc</a> - for bam QC report</p></li>
 <li><p><a class="reference external" href="10.1093/bioinformatics/btv566">qualimap</a> - for bam QC report</p></li>
 </ul>
-</section>
-<section id="detect-variants-step">
-<h4>Detect variants step<a class="headerlink" href="#detect-variants-step" title="Permalink to this headline">¶</a></h4>
 <img alt="../_images/detect_variants.png" src="../_images/detect_variants.png" />
 <p>Used tools:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="10.1101/gr.107524.110">gatk:4.1.8.1</a> Haplotype Caller for variant (SNPs and indels) detection</p></li>
 <li><p><a class="reference external" href="10.1093/gigascience/giab008">bcftools</a> - QC for detected variants</p></li>
 </ul>
-</section>
-<section id="variants-post-processing">
-<h4>Variants post-processing<a class="headerlink" href="#variants-post-processing" title="Permalink to this headline">¶</a></h4>
 <blockquote>
 <div><p>After variants are detected by Haplotype Caller they are subject  decomposition and normalization to assure coherent variant representation.
 Once variants are standardized they are annotated with metadata collected and published by public databases.
@@ -87,14 +125,10 @@ In the afterburner step final postprocessing is performed including generating U
 <li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv112">vt 0.57721–hf74b74d_1</a> - for normalization and decomposition</p></li>
 <li><p><a class="reference external" href="doi:10.1186/s13059-016-0974-4">vep</a> - for variants annotations</p></li>
 </ul>
-</section>
-<section id="loading-variants-to-database">
-<h4>Loading variants to database<a class="headerlink" href="#loading-variants-to-database" title="Permalink to this headline">¶</a></h4>
 <p>After succesfull completion of variants annotations data are transformed into tabular form and stored in relational database using custom operations.</p>
 </section>
-</section>
-<section id="input-parameters">
-<h3>Input parameters<a class="headerlink" href="#input-parameters" title="Permalink to this headline">¶</a></h3>
+<section id="id3">
+<h3>Input parameters<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p><cite>sample_input.json</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;design&quot;</span><span class="p">:</span> <span class="s2">&quot;test_design&quot;</span><span class="p">,</span>
@@ -111,8 +145,8 @@ In the afterburner step final postprocessing is performed including generating U
 </pre></div>
 </div>
 </section>
-<section id="sample-rest-api-call">
-<h3>Sample REST API call<a class="headerlink" href="#sample-rest-api-call" title="Permalink to this headline">¶</a></h3>
+<section id="id4">
+<h3>Sample REST API call<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
   http://localhost:8080/api/v1/dags/germline-exome/dagRuns <span class="se">\</span>
   -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
@@ -121,8 +155,8 @@ In the afterburner step final postprocessing is performed including generating U
 </pre></div>
 </div>
 </section>
-<section id="sample-airflow-cli-invocation">
-<h3>Sample Airflow cli invocation<a class="headerlink" href="#sample-airflow-cli-invocation" title="Permalink to this headline">¶</a></h3>
+<section id="id5">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
 -c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
 -r dag_run-1 germline-exome
@@ -133,54 +167,26 @@ In the afterburner step final postprocessing is performed including generating U
 <section id="kf-rnaseq">
 <h2>kf_rnaseq<a class="headerlink" href="#kf-rnaseq" title="Permalink to this headline">¶</a></h2>
 <img alt="../_images/kf_rnaseq.png" src="../_images/kf_rnaseq.png" />
-<section id="id2">
-<h3>Description<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<section id="id6">
+<h3>Description<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>DAG = kf_rnaseq</p>
 <p>RNA-seq Workflow based on <a class="reference external" href="https://github.com/kids-first/kf-rnaseq-workflow">kf-rnaseq-workflow</a>.</p>
-<section id="id3">
-<h4>Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <p>This pipeline utilizes cutadapt to trim adapters from the raw reads, if necessary, and passes the reads to STAR for alignment.
 The alignment output is used by RSEM for gene expression abundance estimation.
 Additionally, Kallisto is used for quantification, but uses pseudoalignments to estimate the gene abundance from the raw data.
 Fusion calling is performed using Arriba and STAR-Fusion detection tools on the STAR alignment outputs.
 Filtering and prioritization of fusion calls is done by annoFuse.
 Metrics for the workflow are generated by RNA-SeQC.</p>
-<section id="cutadapt">
-<h5>Cutadapt<a class="headerlink" href="#cutadapt" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="https://github.com/marcelm/cutadapt">Cutadapt v2.5</a> Cut adapter sequences from raw reads if needed.</p>
-</section>
-<section id="star">
-<h5>STAR<a class="headerlink" href="#star" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="https://doi.org/f4h523">STAR v2.6.1d</a> RNA-Seq raw data alignment.</p>
-</section>
-<section id="rsem">
-<h5>RSEM<a class="headerlink" href="#rsem" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="https://doi:10/cwg8n5">RSEM v1.3.1</a> Calculation of gene expression.</p>
-</section>
-<section id="kallisto">
-<h5>Kallisto<a class="headerlink" href="#kallisto" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="https://doi:10.1038/nbt.3519">Kallisto v0.43.1</a> Raw data pseudoalignment to estimate gene abundance.</p>
-</section>
-<section id="star-fusion">
-<h5>STAR-Fusion<a class="headerlink" href="#star-fusion" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="https://doi:10.1101/120295">STAR-Fusion v1.5.0</a> Fusion detection for <code class="docutils literal notranslate"><span class="pre">STAR</span></code> chimeric reads.</p>
-</section>
-<section id="arriba">
-<h5>Arriba<a class="headerlink" href="#arriba" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="https://github.com/suhrig/arriba/">Arriba v1.1.0</a> Fusion caller that uses <code class="docutils literal notranslate"><span class="pre">STAR</span></code> aligned reads and chimeric reads output.</p>
-</section>
-<section id="annofuse">
-<h5>annoFuse<a class="headerlink" href="#annofuse" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="https://github.com/d3b-center/annoFuse/releases/tag/v0.90.0">annoFuse 0.90.0</a> Filter and prioritize fusion calls. For more information, please see the following <a class="reference external" href="https://www.biorxiv.org/content/10.1101/839738v3">paper</a>.</p>
-</section>
-<section id="rna-seqc">
-<h5>RNA-SeQC<a class="headerlink" href="#rna-seqc" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="https://github.com/broadinstitute/rnaseqc">RNA-SeQC v2.3.4</a> Generate metrics such as gene and transcript counts, sense/antisene mapping, mapping rates, etc</p>
-</section>
-<section id="usage">
-<h5>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h5>
-<section id="inputs-common">
-<h6>Inputs common:<a class="headerlink" href="#inputs-common" title="Permalink to this headline">¶</a></h6>
+<section id="id7">
+<h4>Inputs common:<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>inputs:
   sample_name: string
   r1_adapter:  [&#39;null&#39;, string]
@@ -200,14 +206,14 @@ Metrics for the workflow are generated by RNA-SeQC.</p>
 </div>
 </section>
 <section id="bam-input-specific">
-<h6>Bam input-specific:<a class="headerlink" href="#bam-input-specific" title="Permalink to this headline">¶</a></h6>
+<h4>Bam input-specific:<a class="headerlink" href="#bam-input-specific" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">inputs</span><span class="p">:</span>
   <span class="nt">reads1</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">File</span>
 </pre></div>
 </div>
 </section>
 <section id="pe-fastq-input-specific">
-<h6>PE Fastq input-specific:<a class="headerlink" href="#pe-fastq-input-specific" title="Permalink to this headline">¶</a></h6>
+<h4>PE Fastq input-specific:<a class="headerlink" href="#pe-fastq-input-specific" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">inputs</span><span class="p">:</span>
   <span class="nt">reads1</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">File</span>
   <span class="nt">reads2</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">File</span>
@@ -215,14 +221,14 @@ Metrics for the workflow are generated by RNA-SeQC.</p>
 </div>
 </section>
 <section id="se-fastq-input-specific">
-<h6>SE Fastq input-specific:<a class="headerlink" href="#se-fastq-input-specific" title="Permalink to this headline">¶</a></h6>
+<h4>SE Fastq input-specific:<a class="headerlink" href="#se-fastq-input-specific" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">inputs</span><span class="p">:</span>
   <span class="nt">reads1</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">File</span>
 </pre></div>
 </div>
 </section>
 <section id="run">
-<h6>Run:<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h6>
+<h4>Run:<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h4>
 <p>1) Fastq or bam input are accepted:
 For PE fastq input, please enter the reads 1 file in <code class="docutils literal notranslate"><span class="pre">reads1</span></code> and the reads 2 file in <code class="docutils literal notranslate"><span class="pre">reads2</span></code>.
 For SE fastq input, enter the single ends reads file in <code class="docutils literal notranslate"><span class="pre">reads1</span></code> and leave <code class="docutils literal notranslate"><span class="pre">reads2</span></code> empty as it is optional.
@@ -258,7 +264,7 @@ If they do need trimming, supply the adapters and the cutadapt step will trim, a
 </div>
 </section>
 <section id="outputs">
-<h6>Outputs:<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h6>
+<h4>Outputs:<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>outputs:
   cutadapt_stats: File, outputSource: cutadapt/cutadapt_stats # only if adapter supplied
   STAR_transcriptome_bam: File, outputSource: star/transcriptome_bam_out
@@ -282,20 +288,16 @@ If they do need trimming, supply the adapters and the cutadapt step will trim, a
 </div>
 <a class="reference external image-reference" href="https://github.com/kids-first/kf-rnaseq-workflow/blob/master/docs/kfdrc-rnaseq-workflow.png?raw=true"><img alt="pipeline flowchart" src="https://github.com/kids-first/kf-rnaseq-workflow/blob/master/docs/kfdrc-rnaseq-workflow.png?raw=true" /></a>
 <section id="d3b-annofuse-workflow">
-<h7>D3b annoFuse Workflow<a class="headerlink" href="#d3b-annofuse-workflow" title="Permalink to this headline">¶</a></h7>
-</section>
-</section>
-</section>
-</section>
-<section id="id4">
-<h4>Introduction<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<h5>D3b annoFuse Workflow<a class="headerlink" href="#d3b-annofuse-workflow" title="Permalink to this headline">¶</a></h5>
+<section id="introduction">
+<h6>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h6>
 <p>In this workflow, annoFuse performs standardization of StarFusion and arriba output files to retain information regarding fused genes, breakpoints, reading frame information as well as annotation from FusionAnnotator, output format description <a class="reference external" href="https://github.com/d3b-center/annoFuse/wiki#1-standardize-calls-from-fusion-callers-to-retain-information-regarding-fused-genesbreakpoints-reading-frame-information-as-well-as-annotation-from-fusionannotator">here</a>. Basic artifact filtering to remove fusions among gene paralogs, conjoined genes and fused genes found in normal samples is also performed by filtering fusions annotated by <a class="reference external" href="https://github.com/d3b-center/FusionAnnotator">FusionAnnotator</a> with “GTEx_Recurrent|DGD_PARALOGS|Normal|BodyMap|ConjoinG”. Each fusion call needs at least one junction reads support to be retained as true call. Additionally, if a fusion call has large number of spanning fragment reads compared to junction reads (spanning fragment minus junction read greater than ten), we remove these calls as potential false positives. An expression based filter is also applied, requiring a min FPKM value of 1 for the fusion genes in question.</p>
 <p>Please refer to <a class="reference external" href="https://github.com/d3b-center/annoFuse">annoFuse</a> R package for additional applications like putative oncogene annotations.</p>
 </section>
-<section id="id6">
-<h4>Usage<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<section id="usage">
+<h6>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h6>
 <section id="inputs">
-<h5>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h5>
+<h7>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h7>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>inputs:
   sample_name:  &#39;string&#39;, doc: &quot;Sample name used for file base name of all outputs&quot;
   FusionGenome:  &#39;File&#39;, doc: &quot;GRCh38_v27_CTAT_lib_Feb092018.plug-n-play.tar.gz&quot;, sbg:suggestedValue: &#39;File&#39;, path: &#39;5d9c8d04e4b0950cce147f94&#39;, name: &#39;GRCh38_v27_CTAT_lib_Feb092018.plug-n-play.tar.gz&#39;
@@ -308,16 +310,16 @@ If they do need trimming, supply the adapters and the cutadapt step will trim, a
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h5>Run<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h5>
+<section id="id8">
+<h7>Run<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h7>
 <ol class="arabic simple">
 <li><p>Outputs from the arriba and STAR Fusion runs are required ahead of time (main RNAseq worflow output)</p></li>
 <li><p>Gzipped rsem counts file, also generated in main RNAseq workflow</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">FusionGenome</span></code> should match what was used to run STAR Fusion</p></li>
 </ol>
 </section>
-<section id="id8">
-<h5>Outputs<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h5>
+<section id="id9">
+<h7>Outputs<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h7>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">outputs</span><span class="p">:</span>
   <span class="nt">annofuse_filtered_fusions_tsv</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">File, outputSource</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">annoFuse_filter/filtered_fusions_tsv, doc</span><span class="p p-Indicator">:</span> <span class="s">&quot;Filtred</span><span class="nv"> </span><span class="s">output</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">formatted</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">annotated</span><span class="nv"> </span><span class="s">Star</span><span class="nv"> </span><span class="s">Fusion</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">arriba</span><span class="nv"> </span><span class="s">results&quot;</span>
 </pre></div>
@@ -325,8 +327,10 @@ If they do need trimming, supply the adapters and the cutadapt step will trim, a
 </section>
 </section>
 </section>
-<section id="id9">
-<h3>Input parameters<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="id10">
+<h3>Input parameters<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p><cite>sample_input.json</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span>
@@ -343,8 +347,8 @@ If they do need trimming, supply the adapters and the cutadapt step will trim, a
 </pre></div>
 </div>
 </section>
-<section id="id10">
-<h3>Sample REST API call<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<section id="id11">
+<h3>Sample REST API call<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
   http://localhost:8080/api/v1/dags/kf_rnaseq/dagRuns <span class="se">\</span>
   -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
@@ -353,8 +357,8 @@ If they do need trimming, supply the adapters and the cutadapt step will trim, a
 </pre></div>
 </div>
 </section>
-<section id="id11">
-<h3>Sample Airflow cli invocation<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<section id="id12">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
 -c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
 -r dag_run-1 kf_rnaseq
@@ -362,59 +366,17 @@ If they do need trimming, supply the adapters and the cutadapt step will trim, a
 </div>
 </section>
 </section>
-<section id="reannotation">
-<h2>reannotation<a class="headerlink" href="#reannotation" title="Permalink to this headline">¶</a></h2>
-<img alt="../_images/reannotation.png" src="../_images/reannotation.png" />
-<section id="id12">
-<h3>Description<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<p>null</p>
-</section>
-<section id="id13">
-<h3>Input parameters<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
-<p><cite>sample_input.json</cite></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;vep_ensembl_version&quot;</span><span class="p">:</span> <span class="s2">&quot;105&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;sample_id&quot;</span><span class="p">:</span> <span class="s2">&quot;db_export&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;template_path&quot;</span><span class="p">:</span> <span class="s2">&quot;dags/tests/cwl/configurations/templates/loading_variants_configuration_template.yaml&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</section>
-<section id="id14">
-<h3>Sample REST API call<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
-  http://localhost:8080/api/v1/dags/reannotation/dagRuns <span class="se">\</span>
-  -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
-  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
-  -d <span class="s2">&quot;{&#39;conf&#39;:\&#39;</span><span class="k">$(</span>cat sample_input.json <span class="p">|</span> sed <span class="s1">&#39;s/\&quot;/\\&quot;/g&#39;</span><span class="k">)</span><span class="s2">\&#39;}&quot;</span>
-</pre></div>
-</div>
-</section>
-<section id="id15">
-<h3>Sample Airflow cli invocation<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
--c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
--r dag_run-1 reannotation
-</pre></div>
-</div>
-</section>
-</section>
 <section id="somatic-exome">
 <h2>somatic-exome<a class="headerlink" href="#somatic-exome" title="Permalink to this headline">¶</a></h2>
 <img alt="../_images/somatic-exome.png" src="../_images/somatic-exome.png" />
-<section id="id16">
-<h3>Description<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<section id="id13">
+<h3>Description<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>Somatic exome workflow based on <a class="reference external" href="https://github.com/sysamgen/analysis-workflows/blob/master/definitions/pipelines/somatic_exome.cwl">mgi-somatic-exome</a>.</p>
-<section id="id17">
-<h4>Introduction<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
 <p>Somatic_exome is designed to perform processing of mutant/wildtype H.sapiens
 exome sequencing data. It features BQSR corrected alignments, 4 caller variant
 detection, and vep style annotations. Structural variants are detected via
 manta and cnvkit. In addition QC metrics are run, including
 somalier concordance metrics.</p>
-</section>
-<section id="id18">
-<h4>Alignment and QC step<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
 <p>Pipeline starts with either fastq files or unaligned BAM files with necessary metadata describing analysis type, sample name, gender, distinction between tumor and normal.</p>
 <p>This step is performed seperately for normal and tumor sample.</p>
 <img alt="../_images/alignment_qc1.png" src="../_images/alignment_qc1.png" />
@@ -432,9 +394,6 @@ somalier concordance metrics.</p>
 <li><p><a class="reference external" href="10.1093/bioinformatics/btv566">qualimap</a> - for bam QC report</p></li>
 <li><p><a class="reference external" href="10.1093/bioinformatics/btw354">multiqc</a> - QC</p></li>
 </ul>
-</section>
-<section id="id29">
-<h4>Detect variants step<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
 <p>This step is performed for normal and tumor sample at once.
 Once variants are standardized they are annotated with metadata collected and published by public databases.
 In the afterburner step final postprocessing is performed including generating URLs to external databases and extracting genotype information from INFO field.</p>
@@ -453,9 +412,8 @@ In the afterburner step final postprocessing is performed including generating U
 <li><p><a class="reference external" href="10.1093/gigascience/giab008">bcftools</a> - QC for detected variants</p></li>
 </ul>
 </section>
-</section>
-<section id="id33">
-<h3>Input parameters<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<section id="id27">
+<h3>Input parameters<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <p><cite>sample_input.json</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;design&quot;</span><span class="p">:</span> <span class="s2">&quot;SSV6&quot;</span><span class="p">,</span>
@@ -475,8 +433,8 @@ In the afterburner step final postprocessing is performed including generating U
 </pre></div>
 </div>
 </section>
-<section id="id34">
-<h3>Sample REST API call<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<section id="id28">
+<h3>Sample REST API call<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
   http://localhost:8080/api/v1/dags/somatic-exome/dagRuns <span class="se">\</span>
   -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
@@ -485,40 +443,11 @@ In the afterburner step final postprocessing is performed including generating U
 </pre></div>
 </div>
 </section>
-<section id="id35">
-<h3>Sample Airflow cli invocation<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
+<section id="id29">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
 -c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
 -r dag_run-1 somatic-exome
-</pre></div>
-</div>
-</section>
-</section>
-<section id="test-loading-variants">
-<h2>test_loading_variants<a class="headerlink" href="#test-loading-variants" title="Permalink to this headline">¶</a></h2>
-<img alt="dags/test_loading_variants.png" src="dags/test_loading_variants.png" />
-<section id="id36">
-<h3>Description<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
-</section>
-<section id="id37">
-<h3>Input parameters<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
-<p><cite>sample_input.json</cite></p>
-</section>
-<section id="id38">
-<h3>Sample REST API call<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
-  http://localhost:8080/api/v1/dags/test_loading_variants/dagRuns <span class="se">\</span>
-  -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
-  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
-  -d <span class="s2">&quot;{&#39;conf&#39;:\&#39;</span><span class="k">$(</span>cat sample_input.json <span class="p">|</span> sed <span class="s1">&#39;s/\&quot;/\\&quot;/g&#39;</span><span class="k">)</span><span class="s2">\&#39;}&quot;</span>
-</pre></div>
-</div>
-</section>
-<section id="id39">
-<h3>Sample Airflow cli invocation<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
--c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
--r dag_run-1 test_loading_variants
 </pre></div>
 </div>
 </section>
@@ -545,11 +474,10 @@ In the afterburner step final postprocessing is performed including generating U
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">System overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Pipelines overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#aux-render-notebook">aux-render-notebook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#germline-exome">germline-exome</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kf-rnaseq">kf_rnaseq</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reannotation">reannotation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#somatic-exome">somatic-exome</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#test-loading-variants">test_loading_variants</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tech_docs/tech_docs.html">Running pipelines</a></li>
