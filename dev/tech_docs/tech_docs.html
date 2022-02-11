@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Running pipelines &#8212; samgen 0.2.60-20-gb19dee9 documentation</title>
+    <title>Running pipelines &#8212; samgen 0.2.60-13-gfde4e70 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -35,10 +35,43 @@
             
   <section id="running-pipelines">
 <h1>Running pipelines<a class="headerlink" href="#running-pipelines" title="Permalink to this headline">¶</a></h1>
-<section id="germline-exome">
-<h2>germline-exome<a class="headerlink" href="#germline-exome" title="Permalink to this headline">¶</a></h2>
+<section id="aux-render-notebook">
+<h2>aux-render-notebook<a class="headerlink" href="#aux-render-notebook" title="Permalink to this headline">¶</a></h2>
 <section id="input-parameters">
 <h3>Input parameters<a class="headerlink" href="#input-parameters" title="Permalink to this headline">¶</a></h3>
+<p><cite>sample_input.json</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;sample_id&quot;</span><span class="p">:</span> <span class="s2">&quot;germline_test_SID&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;run_id&quot;</span><span class="p">:</span> <span class="s2">&quot;manual__2022-01-11T00_13_05.687947_00_00&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;dag_id&quot;</span><span class="p">:</span> <span class="s2">&quot;germline-exome&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;git_notebooks_version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1.11&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="sample-rest-api-call">
+<h3>Sample REST API call<a class="headerlink" href="#sample-rest-api-call" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
+  http://localhost:8080/api/v1/dags/aux-render-notebook/dagRuns <span class="se">\</span>
+  -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
+  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  -d <span class="s2">&quot;{&#39;conf&#39;:\&#39;</span><span class="k">$(</span>cat sample_input.json <span class="p">|</span> sed <span class="s1">&#39;s/\&quot;/\\&quot;/g&#39;</span><span class="k">)</span><span class="s2">\&#39;}&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="sample-airflow-cli-invocation">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#sample-airflow-cli-invocation" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
+-c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
+-r dag_run-1 aux-render-notebook
+</pre></div>
+</div>
+</section>
+</section>
+<section id="germline-exome">
+<h2>germline-exome<a class="headerlink" href="#germline-exome" title="Permalink to this headline">¶</a></h2>
+<section id="id1">
+<h3>Input parameters<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p><cite>sample_input.json</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;design&quot;</span><span class="p">:</span> <span class="s2">&quot;test_design&quot;</span><span class="p">,</span>
@@ -55,8 +88,8 @@
 </pre></div>
 </div>
 </section>
-<section id="sample-rest-api-call">
-<h3>Sample REST API call<a class="headerlink" href="#sample-rest-api-call" title="Permalink to this headline">¶</a></h3>
+<section id="id2">
+<h3>Sample REST API call<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
   http://localhost:8080/api/v1/dags/germline-exome/dagRuns <span class="se">\</span>
   -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
@@ -65,8 +98,8 @@
 </pre></div>
 </div>
 </section>
-<section id="sample-airflow-cli-invocation">
-<h3>Sample Airflow cli invocation<a class="headerlink" href="#sample-airflow-cli-invocation" title="Permalink to this headline">¶</a></h3>
+<section id="id3">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
 -c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
 -r dag_run-1 germline-exome
@@ -76,8 +109,8 @@
 </section>
 <section id="kf-rnaseq">
 <h2>kf_rnaseq<a class="headerlink" href="#kf-rnaseq" title="Permalink to this headline">¶</a></h2>
-<section id="id1">
-<h3>Input parameters<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<section id="id4">
+<h3>Input parameters<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p><cite>sample_input.json</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span>
@@ -94,42 +127,10 @@
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h3>Sample REST API call<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
-  http://localhost:8080/api/v1/dags/kf_rnaseq/dagRuns <span class="se">\</span>
-  -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
-  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
-  -d <span class="s2">&quot;{&#39;conf&#39;:\&#39;</span><span class="k">$(</span>cat sample_input.json <span class="p">|</span> sed <span class="s1">&#39;s/\&quot;/\\&quot;/g&#39;</span><span class="k">)</span><span class="s2">\&#39;}&quot;</span>
-</pre></div>
-</div>
-</section>
-<section id="id3">
-<h3>Sample Airflow cli invocation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
--c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
--r dag_run-1 kf_rnaseq
-</pre></div>
-</div>
-</section>
-</section>
-<section id="reannotation">
-<h2>reannotation<a class="headerlink" href="#reannotation" title="Permalink to this headline">¶</a></h2>
-<section id="id4">
-<h3>Input parameters<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<p><cite>sample_input.json</cite></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;vep_ensembl_version&quot;</span><span class="p">:</span> <span class="s2">&quot;105&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;sample_id&quot;</span><span class="p">:</span> <span class="s2">&quot;db_export&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;template_path&quot;</span><span class="p">:</span> <span class="s2">&quot;dags/tests/cwl/configurations/templates/loading_variants_configuration_template.yaml&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</section>
 <section id="id5">
 <h3>Sample REST API call<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
-  http://localhost:8080/api/v1/dags/reannotation/dagRuns <span class="se">\</span>
+  http://localhost:8080/api/v1/dags/kf_rnaseq/dagRuns <span class="se">\</span>
   -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
   -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
   -d <span class="s2">&quot;{&#39;conf&#39;:\&#39;</span><span class="k">$(</span>cat sample_input.json <span class="p">|</span> sed <span class="s1">&#39;s/\&quot;/\\&quot;/g&#39;</span><span class="k">)</span><span class="s2">\&#39;}&quot;</span>
@@ -140,7 +141,7 @@
 <h3>Sample Airflow cli invocation<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
 -c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
--r dag_run-1 reannotation
+-r dag_run-1 kf_rnaseq
 </pre></div>
 </div>
 </section>
@@ -210,9 +211,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">System overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dags/dags.html">Pipelines overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Running pipelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#aux-render-notebook">aux-render-notebook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#germline-exome">germline-exome</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kf-rnaseq">kf_rnaseq</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reannotation">reannotation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#somatic-exome">somatic-exome</a></li>
 </ul>
 </li>
