@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Pipelines overview &#8212; samgen 0.2.61-5-g56e8318 documentation</title>
+    <title>Pipelines overview &#8212; samgen 0.2.61-4-g157b89f documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -452,11 +452,40 @@ In the afterburner step final postprocessing is performed including generating U
 </div>
 </section>
 </section>
+<section id="test-loading-variants">
+<h2>test_loading_variants<a class="headerlink" href="#test-loading-variants" title="Permalink to this headline">¶</a></h2>
+<img alt="dags/test_loading_variants.png" src="dags/test_loading_variants.png" />
+<section id="id30">
+<h3>Description<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id31">
+<h3>Input parameters<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<p><cite>sample_input.json</cite></p>
+</section>
+<section id="id32">
+<h3>Sample REST API call<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
+  http://localhost:8080/api/v1/dags/test_loading_variants/dagRuns <span class="se">\</span>
+  -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
+  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  -d <span class="s2">&quot;{&#39;conf&#39;:\&#39;</span><span class="k">$(</span>cat sample_input.json <span class="p">|</span> sed <span class="s1">&#39;s/\&quot;/\\&quot;/g&#39;</span><span class="k">)</span><span class="s2">\&#39;}&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id33">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
+-c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
+-r dag_run-1 test_loading_variants
+</pre></div>
+</div>
+</section>
+</section>
 <section id="tumor-only-exome">
 <h2>tumor-only-exome<a class="headerlink" href="#tumor-only-exome" title="Permalink to this headline">¶</a></h2>
 <img alt="../_images/tumor-only-exome.png" src="../_images/tumor-only-exome.png" />
-<section id="id30">
-<h3>Description<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<section id="id34">
+<h3>Description<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <p>Tumor only exome workflow based on <a class="reference external" href="https://github.com/genome/analysis-workflows/blob/master/definitions/pipelines/tumor_only_exome.cwl">mgi-tumor-only-exome</a>.</p>
 <p>Tumor_only_exome is designed to perform processing of mutant/wildtype H.sapiens
 exome sequencing data. It features BQSR corrected alignments, varscan variant
@@ -483,7 +512,7 @@ detection, and vep style annotations. In addition QC metrics are run.</p>
 <p>Used tools:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="10.1101/gr.129684.111">varscan 2.4.2</a> - for somatic variants detection</p></li>
-<li><p><a href="#id51"><span class="problematic" id="id52">`cle 1.4.2 &lt;&gt;`_</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">`cle 1.4.2 &lt;&gt;`_</span></a></p></li>
 <li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv112">vt 0.57721–hf74b74d_1</a> - for normalization and decomposition</p></li>
 <li><p><a class="reference external" href="10.1093/gigascience/giab008">bcftools 1.12</a> - for vcf manipulations (merging, renaming samples)</p></li>
 <li><p><a class="reference external" href="10.1093/bioinformatics/btp352">samtools 1.11</a>  - for indexing and sanitizing BAM files (removing mutect-specific format tags, removing non ACTGN bases)</p></li>
@@ -491,8 +520,8 @@ detection, and vep style annotations. In addition QC metrics are run.</p>
 <li><p><a class="reference external" href="10.1093/gigascience/giab008">bcftools</a> - QC for detected variants</p></li>
 </ul>
 </section>
-<section id="id48">
-<h3>Input parameters<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h3>
+<section id="id52">
+<h3>Input parameters<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
 <p><cite>sample_input.json</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;design&quot;</span><span class="p">:</span> <span class="s2">&quot;SSV6&quot;</span><span class="p">,</span>
@@ -509,8 +538,8 @@ detection, and vep style annotations. In addition QC metrics are run.</p>
 </pre></div>
 </div>
 </section>
-<section id="id49">
-<h3>Sample REST API call<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
+<section id="id53">
+<h3>Sample REST API call<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -g -X POST <span class="se">\</span>
   http://localhost:8080/api/v1/dags/tumor-only-exome/dagRuns <span class="se">\</span>
   -H <span class="s1">&#39;Cache-Control: no-cache&#39;</span> <span class="se">\</span>
@@ -519,8 +548,8 @@ detection, and vep style annotations. In addition QC metrics are run.</p>
 </pre></div>
 </div>
 </section>
-<section id="id50">
-<h3>Sample Airflow cli invocation<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h3>
+<section id="id54">
+<h3>Sample Airflow cli invocation<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>airflow dags trigger <span class="se">\</span>
 -c <span class="s2">&quot;</span><span class="k">$(</span>cat sample_input.json<span class="k">)</span><span class="s2">&quot;</span> <span class="se">\</span>
 -r dag_run-1 tumor-only-exome
@@ -554,6 +583,7 @@ detection, and vep style annotations. In addition QC metrics are run.</p>
 <li class="toctree-l2"><a class="reference internal" href="#germline-exome">germline-exome</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kf-rnaseq">kf_rnaseq</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#somatic-exome">somatic-exome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-loading-variants">test_loading_variants</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tumor-only-exome">tumor-only-exome</a></li>
 </ul>
 </li>
