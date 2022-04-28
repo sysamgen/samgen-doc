@@ -31,14 +31,12 @@
 
           <div class="body" role="main">
             
-  <p>Somatic exome workflow based on <a class="reference external" href="https://github.com/sysamgen/analysis-workflows/blob/master/definitions/pipelines/somatic_exome.cwl">mgi-somatic-exome</a>.</p>
+  <p>Tumor only exome workflow based on <a class="reference external" href="https://github.com/genome/analysis-workflows/blob/master/definitions/pipelines/tumor_only_exome.cwl">mgi-tumor-only-exome</a>.</p>
 <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>Somatic_exome is designed to perform processing of mutant/wildtype H.sapiens
-exome sequencing data. It features BQSR corrected alignments, 4 caller variant
-detection, and vep style annotations. Structural variants are detected via
-manta and cnvkit. In addition QC metrics are run, including
-somalier concordance metrics.</p>
+<p>Tumor_only_exome is designed to perform processing of mutant/wildtype H.sapiens
+exome sequencing data. It features BQSR corrected alignments, varscan variant
+detection, and vep style annotations. In addition QC metrics are run.</p>
 </section>
 <section id="alignment-and-qc-step">
 <h1>Alignment and QC step<a class="headerlink" href="#alignment-and-qc-step" title="Permalink to this headline">¶</a></h1>
@@ -62,17 +60,12 @@ somalier concordance metrics.</p>
 </section>
 <section id="detect-variants-step">
 <h1>Detect variants step<a class="headerlink" href="#detect-variants-step" title="Permalink to this headline">¶</a></h1>
-<p>This step is performed for normal and tumor sample at once.
-Once variants are standardized they are annotated with metadata collected and published by public databases.
-In the afterburner step final postprocessing is performed including generating URLs to external databases and extracting genotype information from INFO field.</p>
+<p>This step is performed for tumor sample only.</p>
 <img alt="../_images/detect_variants1.png" src="../_images/detect_variants1.png" />
 <p>Used tools:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://doi.org/10.1038/nbt.2514">mutect 2</a> - for somatic variants detection</p></li>
-<li><p><a class="reference external" href="10.1038/s41592-018-0051-x">strelka 2.9.9</a> - for somatic variants (SNPs and indels) detection</p></li>
 <li><p><a class="reference external" href="10.1101/gr.129684.111">varscan 2.4.2</a> - for somatic variants detection</p></li>
-<li><p><a class="reference external" href="10.1093/bioinformatics/btv710">manta 1.6.0</a> - for somatic structural variants detection</p></li>
-<li><p><a class="reference external" href="https://doi.org/10.1371/journal.pcbi.1004873">cnvkit 0.9.8</a> - for copy number variants detection</p></li>
+<li><p><a href="#id2"><span class="problematic" id="id3">`cle 1.4.2 &lt;&gt;`_</span></a></p></li>
 <li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv112">vt 0.57721–hf74b74d_1</a> - for normalization and decomposition</p></li>
 <li><p><a class="reference external" href="10.1093/gigascience/giab008">bcftools 1.12</a> - for vcf manipulations (merging, renaming samples)</p></li>
 <li><p><a class="reference external" href="10.1093/bioinformatics/btp352">samtools 1.11</a>  - for indexing and sanitizing BAM files (removing mutect-specific format tags, removing non ACTGN bases)</p></li>
@@ -142,7 +135,7 @@ In the afterburner step final postprocessing is performed including generating U
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../_sources/dags/somatic-exome-desc.md.txt"
+      <a href="../_sources/dags/tumor-only-exome-desc.md.txt"
           rel="nofollow">Page source</a>
     </div>
 
