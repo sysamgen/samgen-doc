@@ -31,18 +31,18 @@
 
           <div class="body" role="main">
             
-  <section id="introduction">
+  <p>Tumor only exome workflow based on <a class="reference external" href="https://github.com/genome/analysis-workflows/blob/master/definitions/pipelines/tumor_only_exome.cwl">mgi-tumor-only-exome</a>.</p>
+<section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>Germline exome workflow based on <a class="reference external" href="https://github.com/sysamgen/analysis-workflows/blob/master/definitions/pipelines/germline_exome.cwl">mgi-germline-exome</a>.</p>
-<p>This worfklow completes exome alignment and germline variant detection using a variety of tools.
-The initial processing of sequence is performed by picard, alignment is performed by bwa. Output bam file undergoes qc process resulting in
-insert_size_metrics, alignment_summary_metrics, hs_metrics and flagstat. VerifyBamId step checks if reads are not contaminated as a mixture of two samples.
-Variants are detected using GATK HaplotypeCaller tool.</p>
+<p>Tumor_only_exome is designed to perform processing of mutant/wildtype H.sapiens
+exome sequencing data. It features BQSR corrected alignments, varscan variant
+detection, and vep style annotations. In addition QC metrics are run.</p>
 </section>
 <section id="alignment-and-qc-step">
 <h1>Alignment and QC step<a class="headerlink" href="#alignment-and-qc-step" title="Permalink to this headline">¶</a></h1>
-<p>Germline pipeline starts with either fastq files or unaligned BAM files with necessary metadata describing analysis type, sample name and phenotype.</p>
-<img alt="../_images/alignment_qc.png" src="../_images/alignment_qc.png" />
+<p>Pipeline starts with either fastq files or unaligned BAM files with necessary metadata describing analysis type, sample name, gender, distinction between tumor and normal.</p>
+<p>This step is performed seperately for normal and tumor sample.</p>
+<img alt="../_images/alignment_qc1.png" src="../_images/alignment_qc1.png" />
 <p>Used tools:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="10.1093/bioinformatics/btp324">bwa_mem 0.7.15</a> - for sequence alignment step using GRCh38 reference</p></li>
@@ -55,33 +55,23 @@ Variants are detected using GATK HaplotypeCaller tool.</p>
 <li><p><a class="reference external" href="doi:10.1016/j.ajhg.2012.09.004">verifyBamId v1.1.3</a> - for checking whether the reads are contaminated as a mixture of two samples</p></li>
 <li><p><a class="reference external" href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">fastqc</a> - for bam QC report</p></li>
 <li><p><a class="reference external" href="10.1093/bioinformatics/btv566">qualimap</a> - for bam QC report</p></li>
+<li><p><a class="reference external" href="10.1093/bioinformatics/btw354">multiqc</a> - QC</p></li>
 </ul>
 </section>
 <section id="detect-variants-step">
 <h1>Detect variants step<a class="headerlink" href="#detect-variants-step" title="Permalink to this headline">¶</a></h1>
-<img alt="../_images/detect_variants.png" src="../_images/detect_variants.png" />
+<p>This step is performed for tumor sample only.</p>
+<img alt="../_images/detect_variants1.png" src="../_images/detect_variants1.png" />
 <p>Used tools:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="10.1101/gr.107524.110">gatk:4.1.8.1</a> Haplotype Caller for variant (SNPs and indels) detection</p></li>
+<li><p><a class="reference external" href="10.1101/gr.129684.111">varscan 2.4.2</a> - for somatic variants detection</p></li>
+<li><p><a href="#id2"><span class="problematic" id="id3">`cle 1.4.2 &lt;&gt;`_</span></a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv112">vt 0.57721–hf74b74d_1</a> - for normalization and decomposition</p></li>
+<li><p><a class="reference external" href="10.1093/gigascience/giab008">bcftools 1.12</a> - for vcf manipulations (merging, renaming samples)</p></li>
+<li><p><a class="reference external" href="10.1093/bioinformatics/btp352">samtools 1.11</a>  - for indexing and sanitizing BAM files (removing mutect-specific format tags, removing non ACTGN bases)</p></li>
+<li><p><a class="reference external" href="10.1101/gr.107524.110">gatk 4.1.8.1</a> - for DOCM variants detection and selecting, filtering variants</p></li>
 <li><p><a class="reference external" href="10.1093/gigascience/giab008">bcftools</a> - QC for detected variants</p></li>
 </ul>
-</section>
-<section id="variants-post-processing">
-<h1>Variants post-processing<a class="headerlink" href="#variants-post-processing" title="Permalink to this headline">¶</a></h1>
-<blockquote>
-<div><p>After variants are detected by Haplotype Caller they are subject  decomposition and normalization to assure coherent variant representation.
-Once variants are standardized they are annotated with metadata collected and published by public databases.
-In the afterburner step final postprocessing is performed including generating URLs to external databases and extracting genotype information from INFO field.</p>
-<p>Used tools:</p>
-</div></blockquote>
-<ul class="simple">
-<li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv112">vt 0.57721–hf74b74d_1</a> - for normalization and decomposition</p></li>
-<li><p><a class="reference external" href="doi:10.1186/s13059-016-0974-4">vep</a> - for variants annotations</p></li>
-</ul>
-</section>
-<section id="loading-variants-to-database">
-<h1>Loading variants to database<a class="headerlink" href="#loading-variants-to-database" title="Permalink to this headline">¶</a></h1>
-<p>After succesfull completion of variants annotations data are transformed into tabular form and stored in relational database using custom operations.</p>
 </section>
 
 
@@ -145,7 +135,7 @@ In the afterburner step final postprocessing is performed including generating U
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../_sources/dags/germline-exome-desc.md.txt"
+      <a href="../_sources/dags/tumor-only-exome-desc.md.txt"
           rel="nofollow">Page source</a>
     </div>
 
