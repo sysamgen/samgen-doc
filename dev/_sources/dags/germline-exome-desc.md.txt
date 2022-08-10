@@ -1,0 +1,50 @@
+
+### Introduction
+Germline exome workflow based on [mgi-germline-exome](https://github.com/sysamgen/analysis-workflows/blob/master/definitions/pipelines/germline_exome.cwl).
+
+This worfklow completes exome alignment and germline variant detection using a variety of tools. 
+The initial processing of sequence is performed by picard, alignment is performed by bwa. Output bam file undergoes qc process resulting in 
+insert_size_metrics, alignment_summary_metrics, hs_metrics and flagstat. VerifyBamId step checks if reads are not contaminated as a mixture of two samples. 
+Variants are detected using GATK HaplotypeCaller tool. 
+
+### Alignment and QC step
+
+Germline pipeline starts with either fastq files or unaligned BAM files with necessary metadata describing analysis type, sample name and phenotype. 
+
+.. image:: img/germline-exome/alignment_qc.png
+
+Used tools:
+* [bwa_mem 0.7.15](10.1093/bioinformatics/btp324) - for sequence alignment step using GRCh38 reference
+* [samblaster 0.1.24](https://doi.org/10.1093/bioinformatics/btu314) - for adding mate tags
+* [flexbar 3.5](10.3390/biology1030895) - for bar and adapter removal 
+* [picard:2.23.6](http://broadinstitute.github.io/picard/) for alignment metrics
+* [samtools 1.11--h6270b1f_0](10.1093/bioinformatics/btp352) for BAM indexing and flagstat operation
+* [picard 2.18.1](http://broadinstitute.github.io/picard/) - for bedtointervals operation
+* [gatk 4.1.8.1](10.1101/gr.107524.110)  for Select Variants
+* [verifyBamId v1.1.3](doi:10.1016/j.ajhg.2012.09.004) - for checking whether the reads are contaminated as a mixture of two samples
+* [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) - for bam QC report
+* [qualimap](10.1093/bioinformatics/btv566) - for bam QC report
+
+### Detect variants step
+
+.. image:: img/germline-exome/detect_variants.png
+
+Used tools:
+* [gatk:4.1.8.1](10.1101/gr.107524.110) Haplotype Caller for variant (SNPs and indels) detection
+* [bcftools](10.1093/gigascience/giab008) - QC for detected variants
+
+### Variants post-processing
+ 
+ After variants are detected by Haplotype Caller they are subject  decomposition and normalization to assure coherent variant representation. 
+ Once variants are standardized they are annotated with metadata collected and published by public databases. 
+ In the afterburner step final postprocessing is performed including generating URLs to external databases and extracting genotype information from INFO field.
+
+ Used tools:
+* [vt 0.57721--hf74b74d_1](https://doi.org/10.1093/bioinformatics/btv112) - for normalization and decomposition
+* [vep](doi:10.1186/s13059-016-0974-4) - for variants annotations
+
+### Loading variants to database
+
+After succesfull completion of variants annotations data are transformed into tabular form and stored in relational database using custom operations. 
+
+
