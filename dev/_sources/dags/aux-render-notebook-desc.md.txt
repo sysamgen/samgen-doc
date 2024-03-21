@@ -1,0 +1,12 @@
+
+This DAG is used to render a single Jupyter notebook for the
+analysis of the results of the previously executed pipelines.
+In order to run the DAG you should provide the following parameters:
+##### Inputs common:
+```
+"sample_id": ID_of_the_sample,
+"run_id": ID_of_the_executed_run,
+"dag_id": ID_of_the_executed_DAG,
+"git_notebooks_version": release_version_of_the_notebooks_repository
+```
+
